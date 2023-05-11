@@ -6,6 +6,7 @@ import controller.NetflixController;
 
 public class Principal {
 
+	// Classe principal que chame e execute os métodos da classe NetflixController.
 	public static void main(String[] args) {
 		NetflixController netflixCtrl = new NetflixController();
 		String opc;
