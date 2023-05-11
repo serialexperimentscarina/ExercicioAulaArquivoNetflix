@@ -3,7 +3,9 @@ package controller;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileWriter;
 import java.io.InputStreamReader;
+import java.io.PrintWriter;
 
 import br.com.serialexperimentscarina.filaobject.FilaObject;
 import model.Serie;
@@ -16,12 +18,47 @@ public class NetflixController implements INetflixController {
 
 	@Override
 	public void arquivoMajorGenre() throws Exception {
-
+		String[] majorGenres = {"Animation", "Comedy", "Docu-Series", "Drama", "Family Animation", "Family Live Action", "Foreign Language", "Marvel", "Reality", "Talk Show"};
+		for (String genre : majorGenres) {
+			FilaObject series = geraFila(0, genre, false);
+			File arquivo = new File("C:\\TEMP", (genre + ".csv"));
+			
+			StringBuffer buffer = new StringBuffer();
+			FileWriter fWriter = new FileWriter(arquivo);
+			PrintWriter pWriter = new PrintWriter(fWriter);
+			
+			while (!series.isEmpty()) {
+				Serie serie = (Serie) series.remove();
+				buffer.append(serie.major_genre + ";" + serie.title + ";" + serie.subgenre + ";" + serie.premiere_year + ";" + serie.episodes + ";" + serie.status + ";" + serie.imdb_rating + System.getProperty("line.separator"));
+			}
+			pWriter.write(buffer.toString());
+			pWriter.flush();
+			pWriter.close();
+			fWriter.close();
+			
+		}
 	}
 
 	@Override
 	public void arquivoPremiereYear() throws Exception {
-		
+		for (int i = 2013; i <= 2017; i++) {
+			FilaObject series = geraFila(4, String.valueOf(i), true);
+			File arquivo = new File("C:\\TEMP", (i + ".csv"));
+			
+			StringBuffer buffer = new StringBuffer();
+			FileWriter fWriter = new FileWriter(arquivo);
+			PrintWriter pWriter = new PrintWriter(fWriter);
+			
+			while (!series.isEmpty()) {
+				Serie serie = (Serie) series.remove();
+				buffer.append(serie.major_genre + ";" + serie.title + ";" + serie.subgenre + ";" + serie.premiere_year + ";" + serie.episodes + ";" + serie.status + ";" + serie.imdb_rating + System.getProperty("line.separator"));
+			}
+			pWriter.write(buffer.toString());
+			pWriter.flush();
+			pWriter.close();
+			fWriter.close();
+			
+		}
 	}
 
 	@Override
