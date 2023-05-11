@@ -14,4 +14,9 @@ public class Serie {
 		super();
 	}
 	
+	@Override
+	public String toString() {
+		return (major_genre + ";" + title + ";" + subgenre + ";" + premiere_year + ";" + episodes + ";" + status + ";" + imdb_rating + System.getProperty("line.separator"));
+	}
+	
 }

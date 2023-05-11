@@ -98,7 +98,7 @@ public class NetflixController implements INetflixController {
 		
 		while (!fila.isEmpty()) {
 			Serie serie = (Serie) fila.remove();
-			buffer.append(serie.major_genre + ";" + serie.title + ";" + serie.subgenre + ";" + serie.premiere_year + ";" + serie.episodes + ";" + serie.status + ";" + serie.imdb_rating + System.getProperty("line.separator"));
+			buffer.append(serie.toString());
 		}
 		pWriter.write(buffer.toString());
 		pWriter.flush();
