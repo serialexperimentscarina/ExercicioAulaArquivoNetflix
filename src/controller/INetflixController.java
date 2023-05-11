@@ -2,8 +2,8 @@ package controller;
 
 public interface INetflixController {
 	
-	public void arquivoMajorGenre();
-	public void arquivoPremiereYear();
+	public void arquivoMajorGenre() throws Exception;
+	public void arquivoPremiereYear() throws Exception;
 	public void arquivoImdbRating();
 	public void exibePorEstrelas();
 }
