@@ -67,18 +67,16 @@ public class NetflixController implements INetflixController {
 			
 			while (linha != null) {
 				String[] vetLinha = linha.split(";(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)");
-				if (vetLinha[coluna].equals(parametro)) {
-					if (!renewedOnly || vetLinha[6].equals("Renewed")) {
-						Serie serie = new Serie();
-						serie.major_genre = vetLinha[0];
-						serie.title = vetLinha[1];
-						serie.subgenre = vetLinha[2];
-						serie.premiere_year = Integer.parseInt(vetLinha[4]);
-						serie.episodes = vetLinha[10] + " episodes";
-						serie.status = vetLinha[6];
-						serie.imdb_rating = Integer.parseInt(vetLinha[11]);
-						series.insert(serie);
-					}
+				if (vetLinha[coluna].equals(parametro) && (!renewedOnly || vetLinha[6].equals("Renewed"))) {
+					Serie serie = new Serie();
+					serie.major_genre = vetLinha[0];
+					serie.title = vetLinha[1];
+					serie.subgenre = vetLinha[2];
+					serie.premiere_year = Integer.parseInt(vetLinha[4]);
+					serie.episodes = vetLinha[10] + " episodes";
+					serie.status = vetLinha[6];
+					serie.imdb_rating = Integer.parseInt(vetLinha[11]);
+					series.insert(serie);
 				}
 				linha = bufferReader.readLine();
 			}
