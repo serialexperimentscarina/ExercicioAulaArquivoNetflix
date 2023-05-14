@@ -3,6 +3,7 @@ package controller;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
@@ -12,14 +13,17 @@ import model.Serie;
 
 public class NetflixController implements INetflixController {
 
-	public NetflixController() {
-		super();
+	TabelaController tabela;
+	
+	public NetflixController() throws Exception {
+		tabela = new TabelaController();
+		geraTabela();
 	}
 
 	
-	// Método que gere Filas de Objetos por “major_genre” e, o
-	// percurso de cada fila gere um novo arquivo CSV (Formado só com os dados constante
-	// no objeto) com o nome do “major_genre” que gerou a fila
+	// Mï¿½todo que gere Filas de Objetos por ï¿½major_genreï¿½ e, o
+	// percurso de cada fila gere um novo arquivo CSV (Formado sï¿½ com os dados constante
+	// no objeto) com o nome do ï¿½major_genreï¿½ que gerou a fila
 	@Override
 	public void arquivoMajorGenre() throws Exception {
 		String[] majorGenres = {"Animation", "Comedy", "Docu-Series", "Drama", "Family Animation", "Family Live Action", "Foreign Language", "Marvel", "Reality", "Talk Show"};
@@ -29,10 +33,10 @@ public class NetflixController implements INetflixController {
 		}
 	}
 
-	// Método que gere Filas de Objetos por “premiere_year” e, o
-	// percurso de cada fila gere um novo arquivo CSV (Formado só com os dados constante
-	// no objeto) com o nome do “premiere_year” que gerou a fila
-	// (A lista deve conter apenas as séries com “status” renewed)	
+	// Mï¿½todo que gere Filas de Objetos por ï¿½premiere_yearï¿½ e, o
+	// percurso de cada fila gere um novo arquivo CSV (Formado sï¿½ com os dados constante
+	// no objeto) com o nome do ï¿½premiere_yearï¿½ que gerou a fila
+	// (A lista deve conter apenas as sï¿½ries com ï¿½statusï¿½ renewed)	
 	@Override
 	public void arquivoPremiereYear() throws Exception {
 		for (int i = 2013; i <= 2017; i++) {
@@ -41,18 +45,50 @@ public class NetflixController implements INetflixController {
 		}
 	}
 
+	
+	// MÃ©todo que gere uma tabela de espalhamento para classificar as sÃ©ries por estrelas. SÃ©ries com
+	// â€œimdb_raï¿½ngâ€ entre 0 â€“ 15 (0 estrelas), entre 16 â€“ 30 (1 estrela), entre 31 â€“ 45 (2
+	// estrelas), entre 46 â€“ 60 (3 estrelas), entre 61 â€“ 75 (4 estrelas), entre 76 â€“ 90 (5 estrelas)
+	// e entre 91 â€“ 100 (6 estrelas)
 	@Override
-	public void arquivoImdbRating() {
-		// Para próxima aula
+	public void geraTabela() throws Exception {
+		File netflixSeries = new File("C:\\TEMP\\netflixSeries.txt");
+		
+		if(netflixSeries.exists() && netflixSeries.isFile()) {
+			FileInputStream fInStr = new FileInputStream(netflixSeries);
+			InputStreamReader InStrReader = new InputStreamReader(fInStr);
+			BufferedReader bufferReader = new BufferedReader(InStrReader);
+			String linha = bufferReader.readLine();
+			linha = bufferReader.readLine();
+			
+			while (linha != null) {
+				String[] vetLinha = linha.split(";(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)");
+				Serie serie = new Serie();
+				serie.major_genre = vetLinha[0];
+				serie.title = vetLinha[1];
+				serie.subgenre = vetLinha[2];
+				serie.premiere_year = Integer.parseInt(vetLinha[4]);
+				serie.episodes = vetLinha[10] + " episodes";
+				serie.status = vetLinha[6];
+				serie.imdb_rating = Integer.parseInt(vetLinha[11]);
+				tabela.adiciona(serie);
+				linha = bufferReader.readLine();
+			}
+			bufferReader.close();
+			InStrReader.close();
+			fInStr.close();
+		}
 	}
 
+	// MÃ©todo que permita buscar na tabela de espalhamento, as sÃ©ries pela quanï¿½dade de estrelas e exiba,
+	// no console, todas as sÃ©ries que estejam classificadas para aquela estrela
 	@Override
-	public void exibePorEstrelas() {
-		// Para próxima aula
+	public void exibePorEstrelas(int estrela) throws Exception {
+		tabela.lista(estrela);
 	}
 	
-	//Método privado que leia o arquivo, linha a linha (Desconsiderando o
-	//cabeçalho), monte um objeto serie com as informações da linha, e adicione em
+	//Mï¿½todo privado que leia o arquivo, linha a linha (Desconsiderando o
+	//cabeï¿½alho), monte um objeto serie com as informaï¿½ï¿½es da linha, e adicione em
 	//uma Fila de Objetos.
 	private FilaObject geraFila(int coluna, String parametro, boolean renewedOnly) throws Exception {
 		File netflixSeries = new File("C:\\TEMP\\netflixSeries.txt");

@@ -19,4 +19,9 @@ public class Serie {
 		return (major_genre + ";" + title + ";" + subgenre + ";" + premiere_year + ";" + episodes + ";" + status + ";" + imdb_rating + System.getProperty("line.separator"));
 	}
 	
+	@Override
+	public int hashCode() {
+		return (imdb_rating - 1 / 15);
+	}
+	
 }

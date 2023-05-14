@@ -7,5 +7,6 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="lib" path="lib/FilaObject.jar"/>
+	<classpathentry kind="lib" path="lib/ListaObject.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
