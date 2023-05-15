@@ -21,7 +21,7 @@ public class Serie {
 	
 	@Override
 	public int hashCode() {
-		return (imdb_rating - 1 / 15);
+		return ((imdb_rating - 1) / 15);
 	}
 	
 }

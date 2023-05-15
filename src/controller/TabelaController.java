@@ -28,9 +28,16 @@ public class TabelaController implements ITabelaController{
 		ListaObject l = tabelaDeEspalhamento[estrela];
 		int tamanho = l.size();
 		
-		for (int i = 0; i < tamanho; i++) {
-			System.out.println(l.get(i));
+		if (l.size() >= 1) {
+			System.out.println("Séries com " + estrela + " estrela(s):");
+			for (int i = 0; i < tamanho; i++) {
+				Serie serie = (Serie) l.get(i);
+				System.out.println(" * " + serie.title);
+			}
+		} else {
+			System.out.println("Não existem séries com " + estrela + " estrela(s).");
 		}
+
 		
 	}
 
